@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Set
+GEMINI_SETUP.md*
+NEXTAUTH_SETUP.md*
