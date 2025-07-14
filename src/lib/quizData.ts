@@ -127,6 +127,16 @@ export const quizSteps: QuizStep[] = [
           "Diverse community exposure",
           "Traditional cultural roots"
         ]
+      },
+      {
+        id: "cognitive-style",
+        question: "When you learn a new topic, what is your typical approach?",
+        type: "multiple-choice",
+        category: "interests-skills",
+        options: [
+          "The Deep Dive: I love to go deep, understand all the details, and become an expert in one specific area.",
+          "The Connector: I enjoy learning a little about a lot of things and finding interesting connections between different topics."
+        ]
       }
     ]
   },
@@ -178,6 +188,36 @@ export const quizSteps: QuizStep[] = [
         type: "scale",
         category: "personality",
         options: ["1", "2", "3", "4", "5"]
+      },
+      {
+        id: "creative-approach",
+        question: "Which statement best describes your creative approach?",
+        type: "multiple-choice",
+        category: "personality",
+        options: [
+          "I prefer proven formulas and clear, structured paths to get results.",
+          "I enjoy experimenting with new ideas, even if they might fail."
+        ]
+      },
+      {
+        id: "project-work-style",
+        question: "When it comes to projects, I am someone who...",
+        type: "multiple-choice",
+        category: "personality",
+        options: [
+          "Thrives on a structured schedule and detailed plans.",
+          "Works best with flexible deadlines and bursts of spontaneous energy."
+        ]
+      },
+      {
+        id: "feedback-reaction",
+        question: "When receiving critical feedback, your first instinct is to:",
+        type: "multiple-choice",
+        category: "personality",
+        options: [
+          "Understand the other person's perspective to maintain harmony.",
+          "Analyze the feedback logically to see if it's factually correct."
+        ]
       }
     ]
   },
@@ -234,6 +274,17 @@ export const quizSteps: QuizStep[] = [
           "LinkedIn",
           "Twitter/X",
           "Facebook"
+        ]
+      },
+      {
+        id: "resilience-mindset",
+        question: "Imagine you spend a week on a piece of content and it gets almost no views. What's your most likely reaction?",
+        type: "multiple-choice",
+        category: "content-goals",
+        options: [
+          "Discouragement: I'd feel pretty defeated and question if this is worth the effort.",
+          "Analysis: I'd try to figure out why it failed—was it the topic, the title, the format?",
+          "Detachment: It happens. I was proud of the work and I'm already focused on the next idea."
         ]
       },
       {
