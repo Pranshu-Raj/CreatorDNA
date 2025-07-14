@@ -1,7 +1,8 @@
 {
-  "name": "creator-personality-matcher",
+  "name": "creatordna",
   "version": "0.1.0",
   "private": true,
+  "description": "Discover your unique creative DNA through AI-powered personality analysis for content creators",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
