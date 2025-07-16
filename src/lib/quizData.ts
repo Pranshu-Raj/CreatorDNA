@@ -67,6 +67,18 @@ export const quizSteps: QuizStep[] = [
     description: "Help us understand your hobbies, skills, and cultural background",
     questions: [
       {
+        id: "problem-solving-approach",
+        question: "When faced with a complex problem, what's your natural approach?",
+        type: "multiple-choice",
+        category: "interests-skills",
+        options: [
+          "Break it down into smaller, manageable parts",
+          "Look for creative, unconventional solutions",
+          "Research what others have done successfully",
+          "Collaborate with others to find the best approach"
+        ]
+      },
+      {
         id: "hobbies",
         question: "What are your main hobbies or interests? (Select all that apply)",
         type: "multi-select",
@@ -103,15 +115,15 @@ export const quizSteps: QuizStep[] = [
         ]
       },
       {
-        id: "languages",
-        question: "How many languages do you speak fluently?",
+        id: "learning-style",
+        question: "How do you prefer to learn new things?",
         type: "multiple-choice",
         category: "interests-skills",
         options: [
-          "1 (Native only)",
-          "2 languages",
-          "3 languages",
-          "4+ languages"
+          "Hands-on practice and experimentation",
+          "Reading comprehensive guides and resources",
+          "Watching video tutorials and demonstrations",
+          "Learning from mentors and experts"
         ]
       },
       {
@@ -145,6 +157,18 @@ export const quizSteps: QuizStep[] = [
     title: "Your Personality",
     description: "Help us understand your communication style and personality traits",
     questions: [
+      {
+        id: "decision-making-style",
+        question: "When making important decisions, you tend to:",
+        type: "multiple-choice",
+        category: "personality",
+        options: [
+          "Analyze all available data and options carefully",
+          "Trust your gut instinct and intuition",
+          "Seek advice from trusted friends or mentors",
+          "Consider the impact on others before deciding"
+        ]
+      },
       {
         id: "communication-style",
         question: "How would you describe your communication style?",
@@ -215,8 +239,10 @@ export const quizSteps: QuizStep[] = [
         type: "multiple-choice",
         category: "personality",
         options: [
-          "Understand the other person's perspective to maintain harmony.",
-          "Analyze the feedback logically to see if it's factually correct."
+          "Understand the other person's perspective to maintain harmony",
+          "Analyze the feedback logically to see if it's factually correct",
+          "Reflect on how it applies to your personal growth",
+          "Use it as motivation to improve and prove yourself"
         ]
       }
     ]
@@ -226,6 +252,18 @@ export const quizSteps: QuizStep[] = [
     title: "Content Goals",
     description: "Let's understand what kind of content you want to create and who you want to reach",
     questions: [
+      {
+        id: "content-motivation",
+        question: "What motivates you most about creating content?",
+        type: "multiple-choice",
+        category: "content-goals",
+        options: [
+          "Sharing knowledge and helping others learn",
+          "Building a community of like-minded people",
+          "Expressing creativity and unique perspectives",
+          "Establishing expertise in your field"
+        ]
+      },
       {
         id: "primary-niche",
         question: "What's your primary niche interest?",
@@ -282,9 +320,10 @@ export const quizSteps: QuizStep[] = [
         type: "multiple-choice",
         category: "content-goals",
         options: [
-          "Discouragement: I'd feel pretty defeated and question if this is worth the effort.",
-          "Analysis: I'd try to figure out why it failed—was it the topic, the title, the format?",
-          "Detachment: It happens. I was proud of the work and I'm already focused on the next idea."
+          "Analyze what went wrong and iterate quickly",
+          "Feel discouraged but try again with a different approach",
+          "Stay focused on the long-term vision and keep going",
+          "Seek feedback from others to understand what happened"
         ]
       },
       {

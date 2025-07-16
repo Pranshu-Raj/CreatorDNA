@@ -21,21 +21,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In a real implementation with a database, you would:
-    // 1. Remove Twitter access tokens from the database
-    // 2. Update user's Twitter connection status to false
-    // 3. Clear any cached Twitter data
+    // In a real implementation, you would:
+    // 1. Revoke the access token with X API
+    // 2. Remove tokens from database
+    // 3. Update user session
     
-    // For now, we'll handle this through the session/JWT token refresh
-    // The actual disconnection would happen by updating the user's record
-    // and forcing a session refresh
-
-    // Clear any localStorage Twitter data
-    // This would be handled client-side after successful API response
-
+    try {
+      // Revoke OAuth 2.0 token (optional)
+      const accessToken = session.accessToken;
+      if (accessToken) {
+        await fetch('https://api.twitter.com/2/oauth2/revoke', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Basic ${Buffer.from(`${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_CLIENT_SECRET}`).toString('base64')}`,
+          },
+          body: new URLSearchParams({
+            token: accessToken,
+            token_type_hint: 'access_token',
+          }),
+        });
+      }
+    } catch (revokeError) {
+      console.error('Token revocation failed:', revokeError);
+      // Continue with disconnection even if revocation fails
+    }
+    
     return NextResponse.json({
       success: true,
-      message: 'Twitter account disconnected successfully. Please refresh the page to see changes.'
+      message: 'Twitter account disconnected successfully'
     });
 
   } catch (error) {

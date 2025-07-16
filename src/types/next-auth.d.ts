@@ -8,6 +8,7 @@ declare module 'next-auth' {
       twitterConnected?: boolean;
       twitterHandle?: string | null;
     };
+    accessToken?: string; // OAuth 2.0 access token
   }
 
   interface User {
@@ -15,6 +16,7 @@ declare module 'next-auth' {
     name?: string | null;
     email?: string | null;
     image?: string | null;
+    username?: string;
     twitterConnected?: boolean;
     twitterHandle?: string | null;
   }
@@ -25,7 +27,11 @@ declare module 'next-auth/jwt' {
     sub: string;
     twitterConnected?: boolean;
     twitterHandle?: string | null;
+    twitterUserId?: string;
+    // OAuth 2.0 tokens
     twitterAccessToken?: string;
     twitterRefreshToken?: string;
+    twitterTokenType?: string;
+    twitterScope?: string;
   }
 } 
