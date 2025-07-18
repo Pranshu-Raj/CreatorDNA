@@ -28,121 +28,195 @@ export default function QuizStep1Page() {
     setAnswers(existingAnswers);
   }, [currentQuizStep, state.answers]);
 
-  // Check if current question is answered
+  // Check if we can proceed
   useEffect(() => {
     if (!currentQuizStep) return;
     
-    const currentQuestion = currentQuizStep.questions[currentQuestionIndex];
-    if (!currentQuestion) return;
+    const allAnswered = currentQuizStep.questions.every(question => {
+      const answer = answers[question.id];
+      if (question.type === 'multi-select') {
+        return Array.isArray(answer) && answer.length > 0;
+      }
+      if (question.type === 'text') {
+        return true; // Text questions are optional
+      }
+      return answer !== undefined && answer !== '' && answer !== 'other';
+    });
     
-    const answer = answers[currentQuestion.id];
-    let isAnswered = false;
-    
-    if (answer === undefined) {
-      isAnswered = false;
-    } else if (currentQuestion.type === 'text') {
-      isAnswered = true; // Text questions are optional
-    } else if (currentQuestion.type === 'multi-select') {
-      isAnswered = Array.isArray(answer) && answer.length > 0;
-    } else if (typeof answer === 'string' && answer === 'Other') {
-      // If "Other" is selected but no text provided, not answered
-      isAnswered = false;
-    } else if (typeof answer === 'string' && answer.startsWith('Other: ')) {
-      // If "Other: text" is provided, check if text is not empty
-      isAnswered = answer.replace('Other: ', '').trim().length > 0;
-    } else {
-      isAnswered = answer !== '' && answer !== undefined;
-    }
-    
-    setCanProceed(isAnswered);
-  }, [answers, currentQuestionIndex, currentQuizStep]);
-
-  if (!currentQuizStep) {
-    router.push('/');
-    return null;
-  }
+    setCanProceed(allAnswered);
+  }, [answers, currentQuizStep]);
 
   const handleAnswer = (questionId: string, answer: string | number | string[]) => {
-    const newAnswers = { ...answers, [questionId]: answer };
-    setAnswers(newAnswers);
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: answer
+    }));
     
-    // Save to context
     addAnswer({ questionId, answer });
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < currentQuizStep.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
+    if (canProceed) {
       nextStep();
       router.push('/quiz/step-2');
     }
   };
 
-  const handlePrev = () => {
+  const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-    } else {
-      router.push('/');
     }
   };
 
-  const currentQuestion = currentQuizStep.questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / currentQuizStep.questions.length) * 25; // 25% for step 1 of 4
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < (currentQuizStep?.questions.length || 0) - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
-      {/* Progress Bar */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Step 1 of 4</span>
-            <span className="text-sm text-gray-500">
-              Question {currentQuestionIndex + 1} of {currentQuizStep.questions.length}
-            </span>
-          </div>
-          <div className="bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-gradient-to-r from-purple-600 to-blue-600 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
+  if (!currentQuizStep) {
+    return (
+      <div className="min-h-screen nature-bg">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="gamified-card p-8 text-center">
+            <div className="text-4xl mb-4 cute-illustration">🌱</div>
+            <p className="text-gray-600">Loading quiz questions...</p>
           </div>
         </div>
       </div>
+    );
+  }
 
-      {/* Question Display */}
-      <div className="flex-1 py-8">
-        <QuizQuestion
-          question={currentQuestion}
-          onAnswer={(answer) => handleAnswer(currentQuestion.id, answer)}
-          currentAnswer={answers[currentQuestion.id]}
-        />
+  const currentQuestion = currentQuizStep.questions[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / currentQuizStep.questions.length) * 100;
+
+  return (
+    <div className="min-h-screen nature-bg">
+      <Navbar />
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="gamified-card p-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <span className="text-4xl cute-illustration">📖</span>
+              <h1 className="text-2xl sm:text-3xl font-bold">Step 1: Your Background</h1>
+            </div>
+            <p className="text-emerald-100 text-sm sm:text-base">
+              Tell us about your professional journey and life experiences
+            </p>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="gamified-card p-4 bg-white/80 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">Progress</span>
+              <span className="text-sm text-gray-500">
+                {currentQuestionIndex + 1} of {currentQuizStep.questions.length}
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div 
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Question */}
+        <div className="mb-8">
+          <QuizQuestion
+            question={currentQuestion}
+            onAnswer={(answer) => handleAnswer(currentQuestion.id, answer)}
+            currentAnswer={answers[currentQuestion.id]}
+          />
+        </div>
 
         {/* Navigation */}
-        <div className="fixed bottom-8 right-8 z-10">
+        <div className="flex flex-col sm:flex-row gap-4 justify-between">
+          <button
+            onClick={handlePrevious}
+            disabled={currentQuestionIndex === 0}
+            className={`btn px-6 py-3 rounded-full font-medium transition-all ${
+              currentQuestionIndex === 0
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'btn-secondary hover:scale-102'
+            }`}
+          >
+            <span className="mr-2">←</span>
+            Previous
+          </button>
+
           <div className="flex items-center space-x-4">
-            {currentQuestionIndex > 0 && (
+            {/* Question Navigation Dots */}
+            <div className="flex space-x-2">
+              {currentQuizStep.questions.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentQuestionIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    index === currentQuestionIndex
+                      ? 'bg-emerald-500 scale-125'
+                      : answers[currentQuizStep.questions[index].id]
+                        ? 'bg-teal-300'
+                        : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            {currentQuestionIndex < currentQuizStep.questions.length - 1 ? (
               <button
-                onClick={handlePrev}
-                className="px-6 py-3 bg-white border-2 border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 transition-colors font-medium shadow-lg"
+                onClick={handleNextQuestion}
+                className="btn btn-primary px-6 py-3 rounded-full font-medium hover:scale-102"
               >
-                Previous
+                Next
+                <span className="ml-2">→</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleNext}
+                disabled={!canProceed}
+                className={`btn px-6 py-3 rounded-full font-medium transition-all ${
+                  canProceed
+                    ? 'btn-primary hover:scale-102 shadow-lg'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Continue to Step 2
+                <span className="ml-2">🚀</span>
               </button>
             )}
-            
-            <button
-              onClick={handleNext}
-              disabled={!canProceed}
-              className={`px-8 py-3 rounded-full font-semibold transition-all shadow-lg ${
-                canProceed
-                  ? 'bg-gradient-to-r from-orange-400 to-pink-400 text-white hover:from-orange-500 hover:to-pink-500 transform hover:scale-105'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              {currentQuestionIndex < currentQuizStep.questions.length - 1 ? 'Next' : 'Continue'}
-            </button>
+          </div>
+        </div>
+
+        {/* Step Overview */}
+        <div className="mt-12">
+          <div className="gamified-card p-6 bg-gradient-to-br from-emerald-50 to-teal-50">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <span className="mr-2">🎯</span>
+              What's Next?
+            </h3>
+            <div className="grid sm:grid-cols-3 gap-4 text-center">
+              <div className="p-4 bg-white rounded-2xl shadow-sm">
+                <div className="text-2xl mb-2">🎨</div>
+                <p className="text-sm font-medium text-gray-700">Step 2: Skills & Interests</p>
+              </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm">
+                <div className="text-2xl mb-2">🎭</div>
+                <p className="text-sm font-medium text-gray-700">Step 3: Your Personality</p>
+              </div>
+              <div className="p-4 bg-white rounded-2xl shadow-sm">
+                <div className="text-2xl mb-2">🎪</div>
+                <p className="text-sm font-medium text-gray-700">Step 4: Content Goals</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -46,41 +46,41 @@ export async function GET(request: NextRequest) {
       console.error('Twitter API error:', apiError);
       
       // Fallback to mock data if API fails
-      const mockAnalysis = {
-        twitterHandle: session.user.twitterHandle,
-        analysis: {
-          contentStyle: {
+    const mockAnalysis = {
+      twitterHandle: session.user.twitterHandle,
+      analysis: {
+        contentStyle: {
             primaryTopics: ['Tech Innovation', 'Personal Development', 'Content Creation'],
             toneAnalysis: 'Professional with authentic personal touches',
             avgEngagement: '6.8%',
             bestPerformingContent: 'Educational threads and behind-the-scenes content'
-          },
-          postingPatterns: {
+        },
+        postingPatterns: {
             frequency: '4-6 posts per week',
             bestTimes: ['9 AM', '2 PM', '7 PM'],
             preferredFormats: ['Threads (45%)', 'Single tweets (35%)', 'Quote tweets (20%)']
-          },
-          audienceInsights: {
+        },
+        audienceInsights: {
             engagement: 'Higher engagement on educational and personal content',
             demographics: 'Tech-savvy professionals aged 25-40',
             interests: ['AI/ML', 'Creator Economy', 'Productivity Tools', 'Startup Culture']
-          },
-          recommendations: [
+        },
+        recommendations: [
             'Your educational threads perform 3x better than average - create more step-by-step guides',
             'Personal stories about your journey get 2x more engagement - share more authentic moments',
             'Post during your peak times (9 AM and 7 PM) for 40% higher reach',
             'Your audience loves actionable tips - consider a weekly "Tuesday Tips" series',
             'Video content performs 5x better - try incorporating more video tweets'
-          ]
-        },
-        lastAnalyzed: new Date().toISOString()
-      };
+        ]
+      },
+      lastAnalyzed: new Date().toISOString()
+    };
 
-      return NextResponse.json({
-        success: true,
+    return NextResponse.json({
+      success: true,
         data: mockAnalysis,
         note: 'Using mock data due to API limitations'
-      });
+    });
     }
 
   } catch (error) {

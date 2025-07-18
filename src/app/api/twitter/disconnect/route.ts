@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       console.error('Token revocation failed:', revokeError);
       // Continue with disconnection even if revocation fails
     }
-    
+
     return NextResponse.json({
       success: true,
       message: 'Twitter account disconnected successfully'

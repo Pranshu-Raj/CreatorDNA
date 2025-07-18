@@ -1,0 +1,255 @@
+{
+    "designSystemProfile": {
+      "name": "Trugly Gamified DeFi UI",
+      "description": "A design system for a decentralized finance (DeFi) application with a friendly, gamified, and nature-themed user interface. The style is approachable and visually rich, using cute illustrations to frame the functional components and soften the complexity of financial transactions.",
+      "style": {
+        "theme": "light",
+        "aesthetic": [
+          "gamified",
+          "nature-themed",
+          "cute",
+          "friendly",
+          "web3",
+          "playful"
+        ],
+        "overallLook": "The UI is characterized by heavily rounded corners on all container elements, soft drop shadows to create depth, and a clean, organized layout. The entire interface is framed by non-interactive, cartoon-style illustrations, which are a core part of the brand identity and user experience."
+      },
+      "palette": [
+        {
+          "role": "primary-accent",
+          "value": "Vibrant minty-green",
+          "description": "Used for primary buttons, active states, borders, and key brand elements."
+        },
+        {
+          "role": "background-main",
+          "value": "Light green-tinted off-white or soft gradient",
+          "description": "The main background color for the entire application view."
+        },
+        {
+          "role": "card-background",
+          "value": "Solid white",
+          "description": "Used as the background for all primary content cards and panels."
+        },
+        {
+          "role": "border-primary",
+          "value": "Light grey or a desaturated minty-green",
+          "description": "Used for borders on cards and input fields."
+        },
+        {
+          "role": "shadow",
+          "value": "Soft, diffuse, low-opacity dark grey",
+          "description": "Applied to cards and some buttons to lift them from the background."
+        },
+        {
+          "role": "text-primary",
+          "value": "Dark charcoal or off-black",
+          "description": "Primary text color for high readability."
+        },
+        {
+          "role": "text-secondary",
+          "value": "Medium grey",
+          "description": "For labels, sub-text, and less important information."
+        },
+        {
+          "role": "text-on-accent",
+          "value": "Solid white",
+          "description": "Used for text on colored button backgrounds."
+        },
+        {
+          "role": "chart-line",
+          "value": "Vibrant purple",
+          "description": "Contrasting color for data visualization lines."
+        },
+        {
+          "role": "indicator-positive",
+          "value": "The primary-accent green",
+          "description": "Used to denote positive actions or status, such as 'BUY'."
+        },
+        {
+          "role": "accent-categorical",
+          "value": "Array of distinct colors (e.g., orange, blue, yellow)",
+          "description": "Used for icons representing different categories or tokens."
+        }
+      ],
+      "typography": {
+        "fontFamily": "A modern, rounded sans-serif font (e.g., Poppins, Nunito, Inter).",
+        "styles": [
+          {
+            "name": "display",
+            "description": "For large, prominent numbers in input fields.",
+            "fontWeight": "700",
+            "fontSize": "xx-large"
+          },
+          {
+            "name": "heading",
+            "description": "For card titles like 'Recent Trades'.",
+            "fontWeight": "600",
+            "fontSize": "large"
+          },
+          {
+            "name": "subheading",
+            "description": "For smaller titles or primary labels like 'Marketcap'.",
+            "fontWeight": "500",
+            "fontSize": "medium"
+          },
+          {
+            "name": "body",
+            "description": "For standard text content and values in tables.",
+            "fontWeight": "400",
+            "fontSize": "small"
+          },
+          {
+            "name": "label",
+            "description": "For minor details and helper text.",
+            "fontWeight": "400",
+            "fontSize": "x-small"
+          },
+          {
+            "name": "button",
+            "description": "For text within all button components.",
+            "fontWeight": "500",
+            "fontSize": "small"
+          }
+        ]
+      },
+      "layout": {
+        "container": "A fixed-width main container, centered, with illustrative elements bleeding out from the edges to create a framed, immersive experience.",
+        "spacingUnit": 8,
+        "grid": "A two-column asymmetrical layout for the main content area. The left column is wider and contains the primary user task (Swap), while the right column contains supplementary data.",
+        "structure": [
+          {
+            "name": "header",
+            "description": "A full-width top bar holding the logo, primary navigation text links, and a main call-to-action button ('Connect Wallet')."
+          },
+          {
+            "name": "subHeader",
+            "description": "A horizontal 'flow' or 'stepper' component below the header, using icons connected by a line to represent a process, filter, or path."
+          },
+          {
+            "name": "mainContent",
+            "description": "The two-column grid area holding all interactive modules and data cards."
+          },
+          {
+            "name": "backgroundDecor",
+            "description": "Illustrative elements (plants, characters, rocks, frogs) placed on layers behind and in front of the UI to create depth and thematic context."
+          }
+        ]
+      },
+      "components": [
+        {
+          "name": "card",
+          "description": "The base container for all modules.",
+          "style": {
+            "backgroundColor": "palette.card-background",
+            "borderRadius": "very-large (e.g., 16px to 24px)",
+            "border": "1px solid",
+            "borderColor": "palette.border-primary",
+            "boxShadow": "palette.shadow",
+            "padding": "generous (e.g., 24px)"
+          }
+        },
+        {
+          "name": "button",
+          "description": "Interactive elements for user actions.",
+          "baseStyle": {
+            "borderRadius": "large (e.g., 12px)",
+            "padding": "medium (e.g., 12px 24px)",
+            "font": "typography.button",
+            "display": "flex",
+            "alignItems": "center",
+            "justifyContent": "center"
+          },
+          "variants": [
+            {
+              "type": "primary",
+              "description": "For the main action on a card, e.g., 'Review Swap'.",
+              "style": {
+                "backgroundColor": "palette.primary-accent",
+                "color": "palette.text-on-accent",
+                "border": "none"
+              }
+            },
+            {
+              "type": "secondary",
+              "description": "For the main action in the header, e.g., 'Connect Wallet'.",
+              "style": {
+                "backgroundColor": "palette.card-background",
+                "color": "palette.primary-accent",
+                "border": "2px solid",
+                "borderColor": "palette.primary-accent"
+              }
+            },
+            {
+              "type": "tertiary",
+              "description": "For secondary link-style actions, e.g., 'Website', 'Twitter'.",
+              "style": {
+                "backgroundColor": "transparent",
+                "color": "palette.text-primary",
+                "border": "none",
+                "hasIconPrefix": true
+              }
+            },
+            {
+              "type": "iconOnly",
+              "description": "For simple, contextual actions like settings.",
+              "style": {
+                "backgroundColor": "transparent",
+                "color": "palette.text-secondary",
+                "borderRadius": "circular or soft-square"
+              }
+            }
+          ]
+        },
+        {
+          "name": "inputFieldGroup",
+          "description": "A self-contained unit for numerical input, typically including a large number display and a token selector.",
+          "style": {
+            "backgroundColor": "palette.card-background",
+            "borderRadius": "large",
+            "border": "1px solid",
+            "borderColor": "palette.border-primary",
+            "padding": "medium"
+          },
+          "structure": "Horizontally arranged. Contains a large, bold numerical input area on the left and a token selector dropdown on the right. A smaller label for the equivalent value is often included below the main input."
+        },
+        {
+          "name": "tokenSelector",
+          "description": "A dropdown-like component for selecting a cryptocurrency token.",
+          "style": {
+            "display": "flex",
+            "alignItems": "center",
+            "gap": "small",
+            "padding": "small",
+            "borderRadius": "medium"
+          },
+          "structure": "Combines a circular token icon, the token symbol text, and a dropdown chevron icon."
+        },
+        {
+          "name": "dataPointCard",
+          "description": "Small, compact cards for displaying a single key metric like Marketcap or Holders.",
+          "style": "Extends the base 'card' style but with reduced padding and potentially no shadow to act as a sub-component.",
+          "structure": "Contains a top-aligned label (typography.subheading) followed by a large, bold value (typography.display)."
+        },
+        {
+          "name": "dataTable",
+          "description": "A list for displaying sequential data like recent trades.",
+          "style": "Contained within a parent card. Rows are separated by a thin horizontal line (1px solid border-primary). No vertical borders.",
+          "structure": "Includes a header row with text-aligned column titles. Data rows are composed of distinct columns. Uses color coding (palette.indicator-positive) to indicate data type like 'BUY'."
+        },
+        {
+          "name": "flowNavigator",
+          "description": "The horizontal stepper-like component in the sub-header.",
+          "style": "Nodes are circular, featuring a colored background and a centered icon. All nodes are connected by a solid grey line that runs behind them.",
+          "structure": "A series of steps, where each step consists of a circular icon and a text label positioned below it."
+        }
+      ],
+      "iconography": {
+        "style": "Primarily line-art with rounded terminals and a consistent stroke weight. Some icons, especially for token logos or in the flow navigator, are filled or full-color.",
+        "usage": "Used within buttons, as standalone action triggers (settings), in data selectors (token icons), and to add visual context to links and navigation."
+      },
+      "imagery": {
+        "style": "2D vector illustrations with a cute, cartoonish aesthetic. Features anthropomorphic characters and stylized nature elements (plants, rocks, frogs). The color palette complements the core UI palette.",
+        "usage": "Functions as a decorative frame for the application window, adding personality and brand identity. It is non-interactive and exists on layers behind and in front of the core UI to create a sense of depth."
+      }
+    }
+  }

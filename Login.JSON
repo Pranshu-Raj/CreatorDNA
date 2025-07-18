@@ -1,0 +1,194 @@
+{
+    "designSystemProfile": {
+      "name": "Modern SaaS Signup Form",
+      "description": "A design system for a clean, modern, and professional user authentication screen (signup/login). The design uses a prominent two-column card layout to separate branding from functionality, creating an elegant and focused user experience.",
+      "style": {
+        "theme": "Dual-tone (Dark/Light)",
+        "aesthetic": [
+          "modern",
+          "minimalist",
+          "corporate",
+          "SaaS",
+          "clean",
+          "professional"
+        ],
+        "overallLook": "The core of the design is a single, centered card with heavily rounded corners, set against a dark, muted background. The card itself is split into two panels: a dark, atmospheric branding panel on the left and a clean, white functional form panel on the right. A single, vibrant accent color provides strong visual hierarchy for calls-to-action."
+      },
+      "palette": [
+        {
+          "role": "primary-accent",
+          "value": "Vibrant orange",
+          "description": "Used for the primary CTA button, logo icon, and input field focus state."
+        },
+        {
+          "role": "background-page",
+          "value": "Dark, muted brown or charcoal",
+          "description": "The full-page background color that frames the central card."
+        },
+        {
+          "role": "background-card-primary",
+          "value": "Solid white",
+          "description": "Background for the primary form panel."
+        },
+        {
+          "role": "background-card-secondary",
+          "value": "Near-black or very dark grey",
+          "description": "Background for the branding/informational panel."
+        },
+        {
+          "role": "text-primary",
+          "value": "Dark charcoal or off-black",
+          "description": "Used for main headings and input text on the white panel."
+        },
+        {
+          "role": "text-secondary",
+          "value": "Medium grey",
+          "description": "Used for subheading text and input field labels."
+        },
+        {
+          "role": "text-on-dark-bg",
+          "value": "Solid white",
+          "description": "Used for the large heading on the dark branding panel."
+        },
+        {
+          "role": "text-on-accent",
+          "value": "Solid white",
+          "description": "Used for text on the primary orange button."
+        },
+        {
+          "role": "border-primary",
+          "value": "Light grey",
+          "description": "Default border color for input fields."
+        },
+        {
+          "role": "border-focus",
+          "value": "Primary-accent orange",
+          "description": "Border color for input fields when they are active/focused."
+        }
+      ],
+      "typography": {
+        "fontFamily": "A clean, geometric sans-serif font (e.g., Inter, Manrope, Plus Jakarta Sans).",
+        "styles": [
+          {
+            "name": "display-heading",
+            "description": "For the large, impactful value proposition text on the dark panel.",
+            "fontWeight": "700",
+            "fontSize": "xx-large",
+            "lineHeight": "tight"
+          },
+          {
+            "name": "form-heading",
+            "description": "For the main heading on the form panel, e.g., 'Get Started'.",
+            "fontWeight": "700",
+            "fontSize": "x-large"
+          },
+          {
+            "name": "form-subheading",
+            "description": "For the welcome text below the form heading.",
+            "fontWeight": "400",
+            "fontSize": "medium",
+            "color": "palette.text-secondary"
+          },
+          {
+            "name": "input-label",
+            "description": "For labels placed above input fields.",
+            "fontWeight": "500",
+            "fontSize": "small",
+            "color": "palette.text-secondary"
+          },
+          {
+            "name": "body",
+            "description": "For secondary text, like the 'Already have an account?' prompt.",
+            "fontWeight": "400",
+            "fontSize": "small"
+          },
+          {
+            "name": "button",
+            "description": "For text inside the primary button.",
+            "fontWeight": "600",
+            "fontSize": "medium"
+          }
+        ]
+      },
+      "layout": {
+        "container": "A single, large card is centered both horizontally and vertically within the viewport. The page background is a solid color.",
+        "spacingUnit": 8,
+        "grid": "The central card uses a two-column, equal-width layout. The form elements on the right panel are arranged in a single vertical stack with consistent spacing (e.g., 16px-24px) between them."
+      },
+      "components": [
+        {
+          "name": "authCard",
+          "description": "The main split-panel container for the authentication screen.",
+          "style": {
+            "display": "grid",
+            "gridTemplateColumns": "1fr 1fr",
+            "borderRadius": "very-large (e.g., 24px-32px)",
+            "overflow": "hidden",
+            "boxShadow": "large, soft shadow to lift the card from the page background."
+          },
+          "structure": "Composed of two panels. The left panel has a 'background-card-secondary' color and contains branding elements. The right panel has a 'background-card-primary' color and contains the user input form. Both panels have significant internal padding."
+        },
+        {
+          "name": "form",
+          "description": "The structure of the input form on the right panel.",
+          "structure": "Arranged vertically. Starts with a logo icon, followed by a Form Heading, Form Subheading, a series of input groups, a primary action button, and a final secondary action link."
+        },
+        {
+          "name": "inputField",
+          "description": "Standard text input field for the form.",
+          "style": {
+            "width": "100%",
+            "backgroundColor": "palette.card-background-primary",
+            "borderRadius": "medium (e.g., 8px)",
+            "border": "1px solid",
+            "borderColor": "palette.border-primary",
+            "padding": "medium (e.g., 12px)",
+            "font": "typography.body"
+          },
+          "states": {
+            "focus": {
+              "borderColor": "palette.border-focus",
+              "boxShadow": "A subtle glow or outline using the accent color."
+            }
+          }
+        },
+        {
+          "name": "button",
+          "description": "The primary call-to-action button.",
+          "variants": [
+            {
+              "type": "primary",
+              "style": {
+                "width": "100%",
+                "backgroundColor": "palette.primary-accent",
+                "color": "palette.text-on-accent",
+                "border": "none",
+                "borderRadius": "medium (e.g., 8px)",
+                "padding": "medium (e.g., 12px)",
+                "font": "typography.button",
+                "cursor": "pointer"
+              }
+            }
+          ]
+        },
+        {
+          "name": "textLink",
+          "description": "A link for secondary actions, like navigating to a different form.",
+          "style": {
+            "baseTextColor": "palette.text-secondary",
+            "linkTextColor": "palette.primary-accent",
+            "textDecoration": "underline on hover/focus"
+          },
+          "structure": "Typically part of a sentence, e.g., 'Already have an account? Login'."
+        }
+      ],
+      "iconography": {
+        "style": "Minimalist, geometric, and abstract. Single-color, using the primary accent.",
+        "usage": "Used as a simple logo mark at the top of the form to establish brand identity without adding clutter."
+      },
+      "imagery": {
+        "style": "Abstract and atmospheric. A soft, blurred, vertical light streak effect.",
+        "usage": "Used as a non-intrusive background element on the dark branding panel to add a sense of dynamism, technology, and visual interest."
+      }
+    }
+  }

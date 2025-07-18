@@ -39,36 +39,36 @@ export default function ResultsPage() {
     router.push('/');
   };
 
-  const handleSaveResults = () => {
-    if (!session || !results) return;
-
+  const handleSave = () => {
+    if (!results || !session) return;
+    
     const savedResult = {
+      ...results,
       id: Date.now().toString(),
       date: new Date().toISOString(),
       type: resultsType,
-      personalityProfile: results.personalityProfile,
-      topStrengths: results.topStrengths,
-      contentAngles: (results as GeminiAnalysisResult).contentAngles || (results as QuizResult).angles,
-      actionSteps: (results as GeminiAnalysisResult).actionSteps,
-      platforms: (results as GeminiAnalysisResult).platforms,
     };
-
-    const existingResults = localStorage.getItem(`userResults_${session.user.id}`);
-    const userResults = existingResults ? JSON.parse(existingResults) : [];
-    const updatedResults = [savedResult, ...userResults].slice(0, 10);
     
-    localStorage.setItem(`userResults_${session.user.id}`, JSON.stringify(updatedResults));
+    // Save to persistent storage
+    const existingResults = JSON.parse(localStorage.getItem('quiz-results') || '[]');
+    const updatedResults = Array.isArray(existingResults) ? existingResults : [existingResults];
+    updatedResults.push(savedResult);
+    localStorage.setItem('quiz-results', JSON.stringify(updatedResults));
+    
     setSaved(true);
-    
     setTimeout(() => setSaved(false), 3000);
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Analyzing your personality...</p>
+      <div className="min-h-screen nature-bg">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="gamified-card p-8 text-center">
+            <div className="text-4xl mb-4 cute-illustration">🌱</div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-emerald-500 mx-auto"></div>
+            <p className="text-gray-600 mt-4">Loading your results...</p>
+          </div>
         </div>
       </div>
     );
@@ -76,49 +76,77 @@ export default function ResultsPage() {
 
   if (!results) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">No results found. Please take the quiz first.</p>
-          <Link href="/" className="text-purple-600 underline mt-2 inline-block">
-            Go to Home
-          </Link>
+      <div className="min-h-screen nature-bg">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="gamified-card p-8 text-center">
+            <div className="text-4xl mb-4 cute-illustration">🤔</div>
+            <p className="text-gray-600 mb-4">No results found. Let's take the quiz!</p>
+            <Link href="/" className="btn btn-primary px-6 py-3 rounded-full font-medium">
+              Start Quiz
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen nature-bg">
       <Navbar />
 
       {/* Results Content */}
-      <main className="px-6 py-8">
-        <div className="max-w-6xl mx-auto">
+      <main className="px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Your Unique <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Content Angles</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Based on your personality and background, here are personalized content angles that will help you stand out.
-            </p>
+            <div className="gamified-card p-8 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+              <div className="text-6xl mb-4 cute-illustration">🎉</div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Your Unique <span className="text-emerald-200">Content DNA</span> Revealed!
+              </h2>
+              <p className="text-lg text-emerald-100 max-w-2xl mx-auto">
+                Based on your personality and background, here are personalized content angles that will help you stand out.
+              </p>
+            </div>
+          </div>
+
+          {/* Analysis Type Badge */}
+          <div className="flex justify-center mb-8">
+            <div className="gamified-card p-4 bg-white/80 backdrop-blur-sm">
+              <div className="flex items-center space-x-2">
+                <span className="text-2xl">{resultsType === 'gemini' ? '🤖' : '🧠'}</span>
+                <span className="font-medium text-gray-700">
+                  {resultsType === 'gemini' ? 'AI-Powered Analysis' : 'Quick Match Analysis'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Personality Profile */}
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Your Creator Profile</h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-lg font-semibold text-purple-600 mb-2">Personality Type</h4>
-                <p className="text-gray-700">{results.personalityProfile}</p>
+          <div className="gamified-card p-8 mb-8 bg-gradient-to-br from-purple-50 to-pink-50">
+            <div className="flex items-center space-x-3 mb-6">
+              <span className="text-4xl cute-illustration">🎭</span>
+              <h3 className="text-2xl font-bold text-gray-900">Your Creator Profile</h3>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div className="bg-white p-6 rounded-2xl shadow-sm">
+                <h4 className="text-lg font-semibold text-purple-600 mb-3 flex items-center">
+                  <span className="mr-2">🌟</span>
+                  Personality Type
+                </h4>
+                <p className="text-gray-700 leading-relaxed">{results.personalityProfile}</p>
               </div>
-              <div>
-                <h4 className="text-lg font-semibold text-blue-600 mb-2">Your Top Strengths</h4>
+              <div className="bg-white p-6 rounded-2xl shadow-sm">
+                <h4 className="text-lg font-semibold text-pink-600 mb-3 flex items-center">
+                  <span className="mr-2">💪</span>
+                  Your Top Strengths
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   {results.topStrengths.map((strength: string, index: number) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
+                      className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium"
                     >
                       {strength}
                     </span>
@@ -130,32 +158,45 @@ export default function ResultsPage() {
 
           {/* Content Angles */}
           <div className="mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">Your Personalized Content Angles</h3>
-            <div className="grid gap-6">
-              {(resultsType === 'gemini' 
-                ? (results as GeminiAnalysisResult).contentAngles 
-                : (results as QuizResult).angles
-              ).map((angle: { id?: string; title: string; description: string; examples: string[] }, index: number) => (
-                <div key={angle.id || index} className="bg-white rounded-lg shadow-lg p-8">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                          #{index + 1}
-                        </span>
-                        <h4 className="text-xl font-bold text-gray-900">{angle.title}</h4>
-                      </div>
-                      <p className="text-gray-600 text-lg">{angle.description}</p>
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+                <span className="mr-2">🎯</span>
+                Your Perfect Content Angles
+              </h3>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                These content angles are uniquely matched to your personality and background
+              </p>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-6">
+              {(resultsType === 'gemini' ? (results as GeminiAnalysisResult).contentAngles : (results as QuizResult).angles).map((angle: any, index: number) => (
+                <div key={index} className="gamified-card p-6 hover:scale-102 transition-all">
+                  <div className="flex items-start space-x-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-xl">{index + 1}</span>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">{angle.title}</h4>
+                      <p className="text-gray-600 text-sm mb-3">{angle.description}</p>
+                      {angle.why && (
+                        <p className="text-emerald-700 text-sm font-medium mb-3 bg-emerald-50 p-2 rounded-lg">
+                          <span className="mr-1">💡</span>
+                          {angle.why}
+                        </p>
+                      )}
                     </div>
                   </div>
                   
-                  <div>
-                    <h5 className="text-lg font-semibold text-gray-900 mb-3">Content Ideas to Get Started:</h5>
-                    <ul className="space-y-2">
+                  <div className="bg-gray-50 rounded-xl p-4">
+                    <h5 className="font-medium text-gray-900 mb-2 flex items-center">
+                      <span className="mr-2">🎨</span>
+                      Content Ideas:
+                    </h5>
+                    <ul className="space-y-1">
                       {angle.examples.map((example: string, exampleIndex: number) => (
-                        <li key={exampleIndex} className="flex items-start gap-2">
-                          <span className="text-purple-600 mt-1">•</span>
-                          <span className="text-gray-700">{example}</span>
+                        <li key={exampleIndex} className="text-gray-700 text-sm flex items-start">
+                          <span className="text-emerald-500 mr-2 mt-1">•</span>
+                          <span>{example}</span>
                         </li>
                       ))}
                     </ul>
@@ -165,96 +206,111 @@ export default function ResultsPage() {
             </div>
           </div>
 
-          {/* Action Steps (Gemini only) */}
-          {resultsType === 'gemini' && (results as GeminiAnalysisResult).actionSteps && (
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Your Content Creation Roadmap</h3>
-              <div className="grid gap-6">
-                {(results as GeminiAnalysisResult).actionSteps.map((step: { title: string; description: string; tasks: string[] }, index: number) => (
-                  <div key={index} className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-6">
-                    <h4 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h4>
-                    <p className="text-gray-700 mb-4">{step.description}</p>
-                    <ul className="space-y-2">
-                      {step.tasks.map((task: string, taskIndex: number) => (
-                        <li key={taskIndex} className="flex items-start gap-2">
-                          <span className="text-green-600 mt-1">✓</span>
-                          <span className="text-gray-700">{task}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Platform Recommendations (Gemini only) */}
-          {resultsType === 'gemini' && (results as GeminiAnalysisResult).platforms && (
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Recommended Platforms for You</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {(results as GeminiAnalysisResult).platforms.map((platform: { platform: string; why: string; tips: string[] }, index: number) => (
-                  <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                    <h4 className="text-xl font-bold text-purple-600 mb-2">{platform.platform}</h4>
-                    <p className="text-gray-700 mb-4">{platform.why}</p>
-                    <div>
-                      <h5 className="font-semibold text-gray-900 mb-2">Tips to Get Started:</h5>
-                      <ul className="space-y-1">
-                        {platform.tips.map((tip: string, tipIndex: number) => (
-                          <li key={tipIndex} className="flex items-start gap-2">
-                            <span className="text-purple-600 mt-1">•</span>
-                            <span className="text-gray-600 text-sm">{tip}</span>
+          {/* AI Analysis Additional Sections */}
+          {resultsType === 'gemini' && (
+            <>
+              {/* Action Steps */}
+              <div className="gamified-card p-8 mb-8 bg-gradient-to-br from-teal-50 to-cyan-50">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                  <span className="mr-2">📋</span>
+                  Your Action Plan
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {(results as GeminiAnalysisResult).actionSteps.map((step, index) => (
+                    <div key={index} className="bg-white p-6 rounded-2xl shadow-sm">
+                      <h4 className="text-lg font-semibold text-teal-600 mb-3">{step.title}</h4>
+                      <p className="text-gray-600 text-sm mb-4">{step.description}</p>
+                      <ul className="space-y-2">
+                        {step.tasks.map((task, taskIndex) => (
+                          <li key={taskIndex} className="text-gray-700 text-sm flex items-start">
+                            <span className="text-teal-500 mr-2 mt-1">✓</span>
+                            <span>{task}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+
+              {/* Platform Recommendations */}
+              <div className="gamified-card p-8 mb-8 bg-gradient-to-br from-blue-50 to-indigo-50">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                  <span className="mr-2">📱</span>
+                  Perfect Platforms for You
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {(results as GeminiAnalysisResult).platforms.map((platform, index) => (
+                    <div key={index} className="bg-white p-6 rounded-2xl shadow-sm">
+                      <h4 className="text-lg font-semibold text-blue-600 mb-3 flex items-center">
+                        <span className="mr-2">🎯</span>
+                        {platform.platform}
+                      </h4>
+                      <p className="text-gray-600 text-sm mb-4">{platform.why}</p>
+                      <div className="space-y-2">
+                        {platform.tips.map((tip, tipIndex) => (
+                          <div key={tipIndex} className="text-gray-700 text-sm flex items-start bg-blue-50 p-2 rounded-lg">
+                            <span className="text-blue-500 mr-2 mt-1">💡</span>
+                            <span>{tip}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Call to Actions */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-8 text-white text-center">
-            <h3 className="text-2xl font-bold mb-4">Ready to Start Creating?</h3>
-            <p className="text-lg mb-6">
-              {resultsType === 'gemini' ? (
-                <>Your AI-powered analysis is complete! Use these personalized recommendations to create content that&rsquo;s authentically you. Remember, your unique background is your competitive advantage!</>
-              ) : (
-                <>Use these personalized angles to create content that&rsquo;s authentically you. Remember, your unique background is your competitive advantage!</>
-              )}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {session && (
-                <button
-                  onClick={handleSaveResults}
-                  disabled={saved}
-                  className="px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50"
-                >
-                  {saved ? '✓ Saved!' : 'Save Results'}
-                </button>
-              )}
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              onClick={handleTakeAgain}
+                             className="btn btn-secondary px-8 py-3 rounded-full font-medium hover:scale-102"
+            >
+              <span className="mr-2">🔄</span>
+              Take Quiz Again
+            </button>
+            
+            {session && (
               <button
-                onClick={handleTakeAgain}
-                className="px-6 py-3 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                onClick={handleSave}
+                disabled={saved}
+                className={`btn px-8 py-3 rounded-full font-medium transition-all ${
+                  saved 
+                    ? 'bg-green-500 text-white' 
+                                         : 'btn-primary hover:scale-102'
+                }`}
               >
-                Take Quiz Again
+                {saved ? (
+                  <>
+                    <span className="mr-2">✅</span>
+                    Saved!
+                  </>
+                ) : (
+                  <>
+                    <span className="mr-2">💾</span>
+                    Save Results
+                  </>
+                )}
               </button>
-              {session ? (
-                <Link
-                  href="/dashboard"
-                  className="px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors"
-                >
-                  View Dashboard
-                </Link>
-              ) : (
-                <Link
-                  href="/"
-                  className="px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors"
-                >
-                  Back to Home
-                </Link>
-              )}
+            )}
+            
+            <Link
+              href="/dashboard"
+                             className="btn btn-primary px-8 py-3 rounded-full font-medium hover:scale-102"
+            >
+              <span className="mr-2">📊</span>
+              Go to Dashboard
+            </Link>
+          </div>
+
+          {/* Decorative Elements */}
+          <div className="text-center mt-12 pb-8">
+            <div className="flex justify-center space-x-8">
+              <span className="text-4xl cute-illustration">🌟</span>
+              <span className="text-4xl cute-illustration">🚀</span>
+              <span className="text-4xl cute-illustration">🎨</span>
             </div>
           </div>
         </div>
